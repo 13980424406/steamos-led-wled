@@ -130,6 +130,12 @@ USB_SERIAL_PROTOCOL="adalight"
 if [[ "$OUTPUT_MODE" != "wled" ]]; then
     read -rp "USB serial device path [$USB_SERIAL_DEVICE]: " USB_DEVICE_INPUT
     USB_SERIAL_DEVICE=${USB_DEVICE_INPUT:-$USB_SERIAL_DEVICE}
+    read -rp "USB serial protocol? [adalight/json; json = JSON over Serial] [$USB_SERIAL_PROTOCOL]: " USB_PROTOCOL_INPUT
+    USB_SERIAL_PROTOCOL=${USB_PROTOCOL_INPUT:-$USB_SERIAL_PROTOCOL}
+    if [[ "$USB_SERIAL_PROTOCOL" != "adalight" && "$USB_SERIAL_PROTOCOL" != "json" ]]; then
+        echo "ERROR: USB serial protocol must be adalight or json."
+        exit 1
+    fi
 fi
 read -rp "USB serial protocol (used with usb/both output)? [adalight/json; json = JSON over Serial] [$USB_SERIAL_PROTOCOL]: " USB_PROTOCOL_INPUT
 USB_SERIAL_PROTOCOL=${USB_PROTOCOL_INPUT:-$USB_SERIAL_PROTOCOL}

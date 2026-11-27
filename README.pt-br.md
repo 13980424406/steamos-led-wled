@@ -124,9 +124,12 @@ num_leds = 8
 usb_serial_device = /dev/ttyACM0
 usb_serial_baud = 115200
 
+<<<<<<< HEAD
 # Protocolo serial USB: adalight (padrão) ou json (WLED JSON over Serial)
 usb_serial_protocol = adalight
 
+=======
+>>>>>>> 33c6e79ae49637ab7d5f2c271a536b28dfa341f1
 =======
 # Número de LEDs na sua fita (1-17)
 num_leds = 8
@@ -144,8 +147,11 @@ audio_overlay = true
 <<<<<<< HEAD
 A origem contém 17 LEDs. `num_leds` pode variar de 1 a 256: saídas menores usam médias ponderadas para combinar LEDs de origem, enquanto saídas maiores distribuem os LEDs de origem pela fita usando médias ponderadas nas transições. Configure a fita WLED com a mesma quantidade de `num_leds`. Para saída somente USB, `wled_host` não é usado; defina `output_mode = usb`. Defina `output_mode = both` para espelhar cada quadro remapeado no WLED por UDP e pela serial USB.
 
+<<<<<<< HEAD
 Escolha o protocolo serial USB durante a instalação ou configure `usb_serial_protocol` manualmente: `adalight` (padrão, quadros binários Adalight) ou `json` (comandos JSON da API WLED delimitados por nova linha). Essa opção só é usada quando `output_mode` é `usb` ou `both`.
 
+=======
+>>>>>>> 33c6e79ae49637ab7d5f2c271a536b28dfa341f1
 =======
 >>>>>>> 3e414fbe9493877576bd8ec237095d71b28574b6
 Após editar, reinicie o serviço:

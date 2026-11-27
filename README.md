@@ -126,9 +126,12 @@ num_leds = 8
 usb_serial_device = /dev/ttyACM0
 usb_serial_baud = 115200
 
+<<<<<<< HEAD
 # USB serial protocol: adalight (default) or json (WLED JSON over Serial)
 usb_serial_protocol = adalight
 
+=======
+>>>>>>> 33c6e79ae49637ab7d5f2c271a536b28dfa341f1
 =======
 # Number of LEDs on your strip (1-17)
 num_leds = 8
@@ -146,8 +149,11 @@ audio_overlay = true
 <<<<<<< HEAD
 The source contains 17 LEDs. `num_leds` can be set from 1 to 256: smaller outputs use weighted averaging to combine source LEDs, while larger outputs distribute the source LEDs across the strip using weighted averages at source boundaries. Configure the WLED strip to match `num_leds`. USB-only output does not use `wled_host`; set `output_mode = usb`. Set `output_mode = both` to mirror each remapped frame to WLED over UDP and USB serial.
 
+<<<<<<< HEAD
 Choose the USB serial protocol during installation or set `usb_serial_protocol` manually: `adalight` (default, binary Adalight frames) or `json` (newline-delimited WLED JSON API commands over Serial). This setting is used only when `output_mode` is `usb` or `both`.
 
+=======
+>>>>>>> 33c6e79ae49637ab7d5f2c271a536b28dfa341f1
 =======
 >>>>>>> 3e414fbe9493877576bd8ec237095d71b28574b6
 After editing, restart the service:
