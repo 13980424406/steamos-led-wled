@@ -2,6 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
+<<<<<<< HEAD
 **[简体中文](CHANGELOG.zh-CN.md) | [Português (PT-BR)](CHANGELOG.pt-br.md)**
 
 ## [1.1.0] - 2026-11-27
@@ -11,6 +12,8 @@ All notable changes to this project will be documented in this file.
 - Add USB serial output using WLED's Adalight protocol. Select `output_mode = usb` or `both` and configure `usb_serial_device`/`usb_serial_baud`; USB-only operation does not require Wi-Fi or a WLED IP address.
 - Support output strips from 1 to 256 LEDs by proportionally remapping the 17 source LEDs, using weighted averaging for both downsampling and upsampling.
 
+=======
+>>>>>>> 3e414fbe9493877576bd8ec237095d71b28574b6
 ## [1.0.5] - 2026-08-28
 
 ### Fixed

@@ -25,7 +25,6 @@ import urllib.request
 
 from output import FanoutOutput
 from usb_serial import MAX_PIXELS, UsbSerialSender
-
 # ══════════════════════════════════════════════════════════════════
 # Constants
 # ══════════════════════════════════════════════════════════════════
@@ -100,10 +99,11 @@ def load_config(path):
     defaults = {
         "wled_host": "",
         "wled_port": str(WLED_UDP_PORT),
-        "num_leds": "17",
+        "num_leds": "8",
         "output_mode": "wled",
         "usb_serial_device": "/dev/ttyACM0",
         "usb_serial_baud": "115200",
+        "usb_serial_protocol": "adalight",
         "device": DEFAULT_DEVICE,
         "temp_overlay": "true",
         "notify_overlay": "true",
@@ -132,6 +132,11 @@ def load_config(path):
     output_mode = cfg.get(section, "output_mode").strip().lower()
     if output_mode not in ("wled", "usb", "both"):
         raise ValueError("output_mode must be wled, usb, or both")
+    usb_serial_protocol = cfg.get(
+        section, "usb_serial_protocol"
+    ).strip().lower()
+    if usb_serial_protocol not in ("adalight", "json"):
+        raise ValueError("usb_serial_protocol must be adalight or json")
 
     return {
         "wled_host": cfg.get(section, "wled_host"),
@@ -140,6 +145,7 @@ def load_config(path):
         "output_mode": output_mode,
         "usb_serial_device": cfg.get(section, "usb_serial_device"),
         "usb_serial_baud": cfg.getint(section, "usb_serial_baud"),
+        "usb_serial_protocol": usb_serial_protocol,
         "device": cfg.get(section, "device"),
         "temp_overlay": cfg.getboolean(section, "temp_overlay"),
         "notify_overlay": cfg.getboolean(section, "notify_overlay"),
@@ -944,7 +950,8 @@ def main():
     if requests_usb:
         try:
             usb = UsbSerialSender(
-                cfg["usb_serial_device"], cfg["usb_serial_baud"]
+                cfg["usb_serial_device"], cfg["usb_serial_baud"],
+                protocol=cfg["usb_serial_protocol"],
             )
         except (OSError, RuntimeError, ValueError) as e:
             print(f"ERROR: Cannot open USB serial output: {e}", file=sys.stderr)
@@ -1075,7 +1082,6 @@ def main():
     except OSError:
         pass
     output.close()
-    wled.close()
 
 
 if __name__ == "__main__":

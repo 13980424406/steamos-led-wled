@@ -2,6 +2,7 @@
 
 Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 
+<<<<<<< HEAD
 **[English](CHANGELOG.md) | [简体中文](CHANGELOG.zh-CN.md)**
 
 ## [1.1.0] - 2026-11-27
@@ -11,6 +12,8 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 - Adiciona saída serial USB usando o protocolo Adalight do WLED. Selecione `output_mode = usb` ou `both` e configure `usb_serial_device`/`usb_serial_baud`; o modo somente USB não exige Wi-Fi nem endereço IP do WLED.
 - Suporte a fitas de 1 a 256 LEDs, remapeando proporcionalmente os 17 LEDs de origem com médias ponderadas ao reduzir ou ampliar.
 
+=======
+>>>>>>> 3e414fbe9493877576bd8ec237095d71b28574b6
 ## [1.0.5] - 2026-08-28
 
 ### Corrigido
