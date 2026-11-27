@@ -74,7 +74,7 @@ sudo ./install.sh
 
 ```ini
 [steamos-led-wled]
-# wled（UDP）、usb（WLED Adalight USB 串口）或 both（两者）
+# wled（UDP）、usb（USB 串口）或 both（两者）
 output_mode = wled
 
 # WLED 设备 IP 地址
@@ -90,6 +90,9 @@ num_leds = 8
 usb_serial_device = /dev/ttyACM0
 usb_serial_baud = 115200
 
+# 串口协议：adalight（默认）或 json（WLED JSON over Serial）
+usb_serial_protocol = adalight
+
 # valve-leds-shim 设备路径
 device = /dev/valve-leds-shim
 
@@ -100,6 +103,8 @@ audio_overlay = true
 ```
 
 源数据包含 17 颗 LED。`num_leds` 可设为 1–256：输出数量少于 17 时，通过加权平均合并源 LED；多于 17 时，将源 LED 按比例分布到灯带，并在源 LED 边界进行加权平均。请将 WLED 中配置的灯带数量设为与 `num_leds` 一致。仅使用 USB 输出时无需设置 `wled_host`，并将 `output_mode` 设为 `usb`。将 `output_mode` 设为 `both` 可通过 UDP 和 USB 串口同时发送映射后的帧。
+
+安装时可选择串口协议，也可手动设置 `usb_serial_protocol`：`adalight`（默认，发送 Adalight 二进制帧）或 `json`（通过 WLED JSON API over Serial 发送换行分隔的 JSON 命令）。该设置仅在 `output_mode` 为 `usb` 或 `both` 时生效。
 
 修改配置后重启服务：
 

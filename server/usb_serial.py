@@ -1,6 +1,7 @@
 """USB serial transport for the SteamOS LED RGB frame protocol."""
 
 import errno
+import json
 import os
 import select
 import sys
@@ -33,6 +34,24 @@ def encode_adalight_frame(pixels):
     return ADALIGHT_HEADER + bytes((count_high, count_low, checksum)) + payload
 
 
+def encode_json_serial_frame(pixels):
+    """Encode RGB pixels as a newline-delimited WLED JSON API command."""
+    if not pixels or len(pixels) > MAX_PIXELS:
+        raise ValueError(f"pixel count must be between 1 and {MAX_PIXELS}")
+
+    colors = []
+    for pixel in pixels:
+        if len(pixel) != 3:
+            raise ValueError("each pixel must contain exactly three channels")
+        if any(not isinstance(channel, int) or not 0 <= channel <= 255
+               for channel in pixel):
+            raise ValueError("RGB channels must be integers between 0 and 255")
+        colors.append("{:02X}{:02X}{:02X}".format(*pixel))
+
+    command = {"seg": {"i": colors}}
+    return (json.dumps(command, separators=(",", ":")) + "\n").encode("ascii")
+
+
 class UsbSerialSender:
     """Write RGB frames to a Linux USB serial device without third-party packages."""
 
@@ -47,9 +66,12 @@ class UsbSerialSender:
         921600: "B921600",
     }
 
-    def __init__(self, device, baud=115200, write_timeout=1.0):
+    def __init__(self, device, baud=115200, write_timeout=1.0,
+                 protocol="adalight"):
         if baud not in self._BAUD_RATES:
             raise ValueError(f"unsupported serial baud rate: {baud}")
+        if protocol not in ("adalight", "json"):
+            raise ValueError("serial protocol must be adalight or json")
         try:
             import termios
             import tty
@@ -57,8 +79,10 @@ class UsbSerialSender:
             raise RuntimeError("USB serial output requires a POSIX/Linux host") from exc
 
         self.device = device
+        self.protocol = protocol
         self.write_timeout = write_timeout
         self._write_lock = threading.Lock()
+        self._json_initialized = False
         self.fd = os.open(device, os.O_WRONLY | os.O_NOCTTY)
         try:
             tty.setraw(self.fd)
@@ -76,24 +100,32 @@ class UsbSerialSender:
             raise
 
     def send_pixels(self, pixels):
-        frame = encode_adalight_frame(pixels)
+        encoder = (encode_json_serial_frame if self.protocol == "json"
+                   else encode_adalight_frame)
+        frame = encoder(pixels)
         with self._write_lock:
-            remaining = memoryview(frame)
-            deadline = time.monotonic() + self.write_timeout
-            while remaining:
-                timeout = deadline - time.monotonic()
-                if timeout <= 0:
+            if self.protocol == "json" and not self._json_initialized:
+                self._write_bytes(b'{"on":true}\n')
+                self._json_initialized = True
+            self._write_bytes(frame)
+
+    def _write_bytes(self, frame):
+        remaining = memoryview(frame)
+        deadline = time.monotonic() + self.write_timeout
+        while remaining:
+            timeout = deadline - time.monotonic()
+            if timeout <= 0:
+                raise TimeoutError(f"timed out writing to {self.device}")
+            try:
+                _, writable, _ = select.select([], [self.fd], [], timeout)
+                if not writable:
                     raise TimeoutError(f"timed out writing to {self.device}")
-                try:
-                    _, writable, _ = select.select([], [self.fd], [], timeout)
-                    if not writable:
-                        raise TimeoutError(f"timed out writing to {self.device}")
-                    written = os.write(self.fd, remaining)
-                    if written == 0:
-                        raise OSError(errno.EIO, "serial device accepted no data")
-                    remaining = remaining[written:]
-                except InterruptedError:
-                    continue
+                written = os.write(self.fd, remaining)
+                if written == 0:
+                    raise OSError(errno.EIO, "serial device accepted no data")
+                remaining = remaining[written:]
+            except InterruptedError:
+                continue
 
     def close(self):
         with self._write_lock:

@@ -2,13 +2,20 @@ from contextlib import redirect_stderr
 import io
 import sys
 import tempfile
+import threading
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
 from led_server import load_config
 from output import FanoutOutput
-from usb_serial import ADALIGHT_HEADER, encode_adalight_frame
+from usb_serial import (
+    ADALIGHT_HEADER,
+    UsbSerialSender,
+    encode_adalight_frame,
+    encode_json_serial_frame,
+)
 
 
 class AdalightEncodingTests(unittest.TestCase):
@@ -31,6 +38,49 @@ class AdalightEncodingTests(unittest.TestCase):
 
         self.assertEqual(frame[3:5], b"\x00\xff")
         self.assertEqual(len(frame), 6 + 256 * 3)
+
+
+class JsonSerialEncodingTests(unittest.TestCase):
+    def test_frame_is_newline_delimited_wled_json_with_hex_pixels(self):
+        frame = encode_json_serial_frame([(1, 2, 3), (250, 0, 255)])
+
+        self.assertEqual(
+            frame,
+            b'{"seg":{"i":["010203","FA00FF"]}}\n',
+        )
+
+    def test_rejects_bad_pixel_count_and_channels(self):
+        for pixels in ([], [(1, 2, 3)] * 257, [(1, 2)], [(0, 0, 256)]):
+            with self.subTest(pixels=len(pixels)):
+                with self.assertRaises(ValueError):
+                    encode_json_serial_frame(pixels)
+
+    def test_sender_turns_wled_on_once_before_setting_pixels(self):
+        sender = UsbSerialSender.__new__(UsbSerialSender)
+        sender.protocol = "json"
+        sender.device = "/dev/fake"
+        sender.write_timeout = 1.0
+        sender._write_lock = threading.Lock()
+        sender._json_initialized = False
+        sender.fd = 7
+        writes = []
+
+        def capture_write(_fd, payload):
+            data = bytes(payload)
+            writes.append(data)
+            return len(data)
+
+        with patch("usb_serial.select.select", return_value=([], [7], [])), \
+                patch("usb_serial.os.write", side_effect=capture_write):
+            sender.send_pixels([(1, 2, 3)])
+            sender.send_pixels([(4, 5, 6)])
+
+        self.assertEqual(
+            b"".join(writes),
+            b'{"on":true}\n'
+            b'{"seg":{"i":["010203"]}}\n'
+            b'{"seg":{"i":["040506"]}}\n',
+        )
 
 
 class OutputTests(unittest.TestCase):
@@ -72,6 +122,7 @@ class ConfigurationTests(unittest.TestCase):
 
         self.assertEqual(config["output_mode"], "wled")
         self.assertEqual(config["num_leds"], 8)
+        self.assertEqual(config["usb_serial_protocol"], "adalight")
 
     def test_config_accepts_maximum_output_led_count(self):
         config = self.read_config("num_leds = 256\n")
@@ -93,6 +144,7 @@ class ConfigurationTests(unittest.TestCase):
             "__NUM_LEDS__": "17",
             "__OUTPUT_MODE__": "both",
             "__USB_SERIAL_DEVICE__": "/dev/ttyACM0",
+            "__USB_SERIAL_PROTOCOL__": "json",
             "__TEMP_OVERLAY__": "true",
             "__NOTIFY_OVERLAY__": "true",
             "__AUDIO_OVERLAY__": "true",
@@ -102,6 +154,11 @@ class ConfigurationTests(unittest.TestCase):
         config = self.read_config(content.partition("]\n")[2])
 
         self.assertEqual(config["output_mode"], "both")
+        self.assertEqual(config["usb_serial_protocol"], "json")
+
+    def test_config_rejects_unknown_usb_serial_protocol(self):
+        with self.assertRaisesRegex(ValueError, "usb_serial_protocol"):
+            self.read_config("usb_serial_protocol = unknown\n")
 
     def test_usb_mode_ignores_legacy_matrix_layout_settings(self):
         config = self.read_config(

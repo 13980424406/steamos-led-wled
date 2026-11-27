@@ -118,7 +118,7 @@ echo "  Step 1: LED output configuration"
 echo "======================================"
 
 OUTPUT_MODE="wled"
-read -rp "Output mode? [wled/usb (WLED serial)/both] [$OUTPUT_MODE]: " OUTPUT_INPUT
+read -rp "Output mode? [wled/usb/both] [$OUTPUT_MODE]: " OUTPUT_INPUT
 OUTPUT_MODE=${OUTPUT_INPUT:-$OUTPUT_MODE}
 if [[ "$OUTPUT_MODE" != "wled" && "$OUTPUT_MODE" != "usb" && "$OUTPUT_MODE" != "both" ]]; then
     echo "ERROR: Output mode must be wled, usb, or both."
@@ -126,9 +126,16 @@ if [[ "$OUTPUT_MODE" != "wled" && "$OUTPUT_MODE" != "usb" && "$OUTPUT_MODE" != "
 fi
 
 USB_SERIAL_DEVICE="/dev/ttyACM0"
+USB_SERIAL_PROTOCOL="adalight"
 if [[ "$OUTPUT_MODE" != "wled" ]]; then
     read -rp "USB serial device path [$USB_SERIAL_DEVICE]: " USB_DEVICE_INPUT
     USB_SERIAL_DEVICE=${USB_DEVICE_INPUT:-$USB_SERIAL_DEVICE}
+fi
+read -rp "USB serial protocol (used with usb/both output)? [adalight/json; json = JSON over Serial] [$USB_SERIAL_PROTOCOL]: " USB_PROTOCOL_INPUT
+USB_SERIAL_PROTOCOL=${USB_PROTOCOL_INPUT:-$USB_SERIAL_PROTOCOL}
+if [[ "$USB_SERIAL_PROTOCOL" != "adalight" && "$USB_SERIAL_PROTOCOL" != "json" ]]; then
+    echo "ERROR: USB serial protocol must be adalight or json."
+    exit 1
 fi
 
 discover_wled() {
@@ -309,6 +316,7 @@ sed -e "s/__WLED_HOST__/$WLED_HOST/g" \
     -e "s/__NUM_LEDS__/$NUM_LEDS/g" \
     -e "s/__OUTPUT_MODE__/$OUTPUT_MODE/g" \
     -e "s|__USB_SERIAL_DEVICE__|$USB_SERIAL_DEVICE|g" \
+    -e "s/__USB_SERIAL_PROTOCOL__/$USB_SERIAL_PROTOCOL/g" \
     -e "s/__TEMP_OVERLAY__/$TEMP_OVERLAY/g" \
     -e "s/__NOTIFY_OVERLAY__/$NOTIFY_OVERLAY/g" \
     -e "s/__AUDIO_OVERLAY__/$AUDIO_OVERLAY/g" \
@@ -438,6 +446,7 @@ if [[ "$OUTPUT_MODE" != "usb" ]]; then
 fi
 if [[ "$OUTPUT_MODE" != "wled" ]]; then
     echo "  USB device:   $USB_SERIAL_DEVICE"
+    echo "  USB protocol: $USB_SERIAL_PROTOCOL"
 fi
 echo "  Logical LEDs: $NUM_LEDS"
 echo "  Config file:  $CONF_FILE"
