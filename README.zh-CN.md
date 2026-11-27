@@ -48,7 +48,7 @@ sudo ./install.sh
 
 1. 询问使用 WLED、USB 还是两者同时输出
 2. 选择 WLED 输出时，通过 mDNS/子网扫描自动发现设备
-3. 选择 USB 输出时，询问 USB 串口设备
+3. 选择 USB 输出时，询问 USB 串口设备和协议格式（Adalight 或 JSON），并写入配置文件
 4. 询问逻辑 LED 数量和叠加效果选项
 5. 安装所需系统软件包；缺少 Python 3 时也会安装
 6. 编译并安装 `leds-valve-shim` 内核模块

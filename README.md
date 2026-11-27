@@ -72,7 +72,7 @@ The installer will:
 
 1. Ask whether to use WLED, USB, or both
 2. Auto-discover WLED devices (mDNS / subnet scan) when WLED output is selected
-3. Ask for the USB serial device when USB output is selected
+3. Ask for the USB serial device and protocol (Adalight or JSON) when USB output is selected
 4. Ask for logical LED count and overlay preferences
 5. Install required system packages, including Python 3 if it is missing
 6. Build and install the `leds-valve-shim` kernel module
