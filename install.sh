@@ -120,6 +120,7 @@ echo "======================================"
 OUTPUT_MODE="wled"
 read -rp "Output mode? [wled/usb/both] [$OUTPUT_MODE]: " OUTPUT_INPUT
 OUTPUT_MODE=${OUTPUT_INPUT:-$OUTPUT_MODE}
+OUTPUT_MODE=${OUTPUT_MODE,,}
 if [[ "$OUTPUT_MODE" != "wled" && "$OUTPUT_MODE" != "usb" && "$OUTPUT_MODE" != "both" ]]; then
     echo "ERROR: Output mode must be wled, usb, or both."
     exit 1
@@ -127,11 +128,13 @@ fi
 
 USB_SERIAL_DEVICE="/dev/ttyACM0"
 USB_SERIAL_PROTOCOL="adalight"
-if [[ "$OUTPUT_MODE" != "wled" ]]; then
+if [[ "$OUTPUT_MODE" == "usb" || "$OUTPUT_MODE" == "both" ]]; then
     read -rp "USB serial device path [$USB_SERIAL_DEVICE]: " USB_DEVICE_INPUT
     USB_SERIAL_DEVICE=${USB_DEVICE_INPUT:-$USB_SERIAL_DEVICE}
-    read -rp "USB serial format/protocol? [adalight/json; json = JSON over Serial] [$USB_SERIAL_PROTOCOL]: " USB_PROTOCOL_INPUT
+    printf "USB serial send protocol (saved as usb_serial_protocol in the config).\n"
+    read -rp "Choose protocol [adalight/json; json = JSON over Serial] [$USB_SERIAL_PROTOCOL]: " USB_PROTOCOL_INPUT
     USB_SERIAL_PROTOCOL=${USB_PROTOCOL_INPUT:-$USB_SERIAL_PROTOCOL}
+    USB_SERIAL_PROTOCOL=${USB_SERIAL_PROTOCOL,,}
     if [[ "$USB_SERIAL_PROTOCOL" != "adalight" && "$USB_SERIAL_PROTOCOL" != "json" ]]; then
         echo "ERROR: USB serial protocol must be adalight or json."
         exit 1
