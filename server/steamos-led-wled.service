@@ -6,6 +6,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 User=__USER__
+__SERIAL_GROUP_LINE__
 Environment=DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/__UID__/bus
 Environment=XDG_RUNTIME_DIR=/run/user/__UID__
 Environment=PULSE_SERVER=unix:/run/user/__UID__/pulse/native

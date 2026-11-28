@@ -341,8 +341,20 @@ DESK_USER=$(awk -F: '$3 >= 1000 && $3 < 60000 { print $1; exit }' /etc/passwd)
 DESK_UID=$(id -u "$DESK_USER" 2>/dev/null || echo "1000")
 echo "Service will run as user: $DESK_USER (UID $DESK_UID)"
 
+SERIAL_GROUP_LINE=""
+if [[ "$OUTPUT_MODE" == "usb" || "$OUTPUT_MODE" == "both" ]]; then
+    SERIAL_GROUP=$(stat -c '%G' "$USB_SERIAL_DEVICE" 2>/dev/null || true)
+    if [ -n "$SERIAL_GROUP" ] && [ "$SERIAL_GROUP" != "UNKNOWN" ]; then
+        SERIAL_GROUP_LINE="SupplementaryGroups=$SERIAL_GROUP"
+        echo "Service will use serial device group: $SERIAL_GROUP"
+    else
+        echo "WARNING: Could not determine the group for $USB_SERIAL_DEVICE"
+    fi
+fi
+
 sed -e "s/__USER__/$DESK_USER/g" \
     -e "s/__UID__/$DESK_UID/g" \
+    -e "s/__SERIAL_GROUP_LINE__/$SERIAL_GROUP_LINE/g" \
     "$SERVER_DIR/steamos-led-wled.service" > "$SERVICE_FILE"
 
 systemctl daemon-reload
