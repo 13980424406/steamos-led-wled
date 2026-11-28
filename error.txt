@@ -1,0 +1,575 @@
+nobara-user@msb650itx-nobrar:~/Desktop/steamos-led-wled$ cd '/home/nobara-user/Desktop/steamos-led-wled'
+sudo ./install.sh
+Detected distro: fedora
+
+======================================
+  Step 0: Installing dependencies
+======================================
+All build dependencies already installed
+
+======================================
+  Step 1: LED output configuration
+======================================
+Output mode? [wled/usb/both] [wled]: usb
+USB serial device path [/dev/ttyACM0]: /dev/ttyACM0
+USB serial send protocol (saved as usb_serial_protocol in the config).
+Choose protocol [adalight/json; json = JSON over Serial] [adalight]: json
+WLED configuration skipped.
+
+How many logical LEDs should the output use? [17]: 34
+Configuring for 34 logical LEDs
+
+  Overlay features (enhance LED bar beyond Game Mode):
+    temp   - Color bar by CPU/GPU temperature
+    notify - Flash on Steam achievements/messages
+    audio  - VU meter driven by system audio
+
+Enable temperature overlay? [Y/n]: y
+Enable notification overlay? [Y/n]: y
+Enable audio reactive overlay? [Y/n]: y
+Overlays: temp=true notify=true audio=true
+
+======================================
+  Step 2: Kernel module (leds-valve-shim)
+======================================
+Module not found at /home/nobara-user/Desktop/steamos-led-wled/leds-valve-shim/leds-valve-shim.ko. Trying to build...
+make: 进入目录“/home/nobara-user/Desktop/steamos-led-wled/leds-valve-shim”
+make -C /lib/modules/7.1.3-200.nobara.fc44.x86_64/build M=/home/nobara-user/Desktop/steamos-led-wled/leds-valve-shim modules
+make[1]: 进入目录“/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64”
+make[2]: 进入目录“/home/nobara-user/Desktop/steamos-led-wled/leds-valve-shim”
+warning: the compiler differs from the one used to build the kernel
+  The kernel was built by: gcc (GCC) 16.1.1 20260515 (Red Hat 16.1.1-2)
+  You are using:           gcc (GCC) 16.2.1 20260819 (Red Hat 16.2.1-2)
+warning: pahole version differs from the one used to build the kernel
+  The kernel was built with: 130
+  You are using:             0
+  CC [M]  leds-valve-shim.o
+leds-valve-shim.c:1:1: error: version control conflict marker in file
+    1 | <<<<<<< HEAD
+      | ^~~~~~~
+leds-valve-shim.c:650:1: error: version control conflict marker in file
+  650 | =======
+      | ^~~~~~~
+In file included from /usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:23,
+                 from /usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device/driver.h:21,
+                 from /usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:32,
+                 from leds-valve-shim.c:4:
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:437:45: error: ‘__check_debug_log’重定义
+  437 |         static inline type __always_unused *__check_##name(void) { return(p); }
+      |                                             ^~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:496:35: note: in expansion of macro ‘__param_check’
+  496 | #define param_check_bool(name, p) __param_check(name, p, bool)
+      |                                   ^~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:163:9: note: in expansion of macro ‘param_check_bool’
+  163 |         param_check_##type(name, &(value));                                \
+      |         ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:140:9: note: in expansion of macro ‘module_param_named’
+  140 |         module_param_named(name, name, type, perm)
+      |         ^~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:700:1: note: in expansion of macro ‘module_param’
+  700 | module_param(debug_log, bool, 0644);
+      | ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:437:45: note: previous definition of ‘__check_debug_log’ with type ‘bool *(void)’ {或称 ‘_Bool *(void)’}
+  437 |         static inline type __always_unused *__check_##name(void) { return(p); }
+      |                                             ^~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:496:35: note: in expansion of macro ‘__param_check’
+  496 | #define param_check_bool(name, p) __param_check(name, p, bool)
+      |                                   ^~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:163:9: note: in expansion of macro ‘param_check_bool’
+  163 |         param_check_##type(name, &(value));                                \
+      |         ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:140:9: note: in expansion of macro ‘module_param_named’
+  140 |         module_param_named(name, name, type, perm)
+      |         ^~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:51:1: note: in expansion of macro ‘module_param’
+   51 | module_param(debug_log, bool, 0644);
+      | ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:301:27: error: ‘__param_str_debug_log’重定义
+  301 |         static const char __param_str_##name[] = prefix #name;          \
+      |                           ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:189:9: note: in expansion of macro ‘__module_param_call’
+  189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:164:9: note: in expansion of macro ‘module_param_cb’
+  164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+      |         ^~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:140:9: note: in expansion of macro ‘module_param_named’
+  140 |         module_param_named(name, name, type, perm)
+      |         ^~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:700:1: note: in expansion of macro ‘module_param’
+  700 | module_param(debug_log, bool, 0644);
+      | ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:301:27: note: previous definition of ‘__param_str_debug_log’ with type ‘const char[10]’
+  301 |         static const char __param_str_##name[] = prefix #name;          \
+      |                           ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:189:9: note: in expansion of macro ‘__module_param_call’
+  189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:164:9: note: in expansion of macro ‘module_param_cb’
+  164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+      |         ^~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:140:9: note: in expansion of macro ‘module_param_named’
+  140 |         module_param_named(name, name, type, perm)
+      |         ^~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:51:1: note: in expansion of macro ‘module_param’
+   51 | module_param(debug_log, bool, 0644);
+      | ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:302:56: error: ‘__param_debug_log’重定义
+  302 |         static struct kernel_param __moduleparam_const __param_##name   \
+      |                                                        ^~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:189:9: note: in expansion of macro ‘__module_param_call’
+  189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:164:9: note: in expansion of macro ‘module_param_cb’
+  164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+      |         ^~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:140:9: note: in expansion of macro ‘module_param_named’
+  140 |         module_param_named(name, name, type, perm)
+      |         ^~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:700:1: note: in expansion of macro ‘module_param’
+  700 | module_param(debug_log, bool, 0644);
+      | ^~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:302:56: note: previous definition of ‘__param_debug_log’ with type ‘const struct kernel_param’
+  302 |         static struct kernel_param __moduleparam_const __param_##name   \
+      |                                                        ^~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:189:9: note: in expansion of macro ‘__module_param_call’
+  189 |         __module_param_call(MODULE_PARAM_PREFIX, name, ops, arg, perm, -1, 0)
+      |         ^~~~~~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:164:9: note: in expansion of macro ‘module_param_cb’
+  164 |         module_param_cb(name, &param_ops_##type, &value, perm);            \
+      |         ^~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/moduleparam.h:140:9: note: in expansion of macro ‘module_param_named’
+  140 |         module_param_named(name, name, type, perm)
+      |         ^~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:51:1: note: in expansion of macro ‘module_param’
+   51 | module_param(debug_log, bool, 0644);
+      | ^~~~~~~~~~~~
+leds-valve-shim.c:703:8: error: ‘struct valve_leds_pixel’重定义
+  703 | struct valve_leds_pixel {
+      |        ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:54:8: note: 原先在这里定义
+   54 | struct valve_leds_pixel {
+      |        ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:710:8: error: ‘struct valve_leds_snapshot’重定义
+  710 | struct valve_leds_snapshot {
+      |        ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:61:8: note: 原先在这里定义
+   61 | struct valve_leds_snapshot {
+      |        ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:731:8: error: ‘struct valve_leds’重定义
+  731 | struct valve_leds {
+      |        ^~~~~~~~~~
+leds-valve-shim.c:82:8: note: 原先在这里定义
+   82 | struct valve_leds {
+      |        ^~~~~~~~~~
+leds-valve-shim.c:739:16: error: ‘struct valve_led’重定义
+  739 |         struct valve_led {
+      |                ^~~~~~~~~
+leds-valve-shim.c:90:16: note: 原先在这里定义
+   90 |         struct valve_led {
+      |                ^~~~~~~~~
+leds-valve-shim.c:759:27: error: conflicting types for ‘active_leds’; have ‘struct valve_leds *’
+  759 | static struct valve_leds *active_leds;
+      |                           ^~~~~~~~~~~
+leds-valve-shim.c:110:27: note: previous declaration of ‘active_leds’ with type ‘struct valve_leds *’
+  110 | static struct valve_leds *active_leds;
+      |                           ^~~~~~~~~~~
+leds-valve-shim.c:761:26: error: ‘effect_names’重定义
+  761 | static const char *const effect_names[] = {
+      |                          ^~~~~~~~~~~~
+leds-valve-shim.c:112:26: note: previous definition of ‘effect_names’ with type ‘const char * const[8]’
+  112 | static const char *const effect_names[] = {
+      |                          ^~~~~~~~~~~~
+leds-valve-shim.c:772:13: error: conflicting types for ‘valve_leds_state_changed’; have ‘void(struct valve_leds *)’
+  772 | static void valve_leds_state_changed(struct valve_leds *leds)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:123:13: note: previous definition of ‘valve_leds_state_changed’ with type ‘void(struct valve_leds *)’
+  123 | static void valve_leds_state_changed(struct valve_leds *leds)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:779:13: error: conflicting types for ‘valve_leds_log_global’; have ‘void(struct valve_leds *, const char *, const char *)’
+  779 | static void valve_leds_log_global(struct valve_leds *leds, const char *name, const char *value)
+      |             ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:130:13: note: previous definition of ‘valve_leds_log_global’ with type ‘void(struct valve_leds *, const char *, const char *)’
+  130 | static void valve_leds_log_global(struct valve_leds *leds, const char *name, const char *value)
+      |             ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:787:13: error: conflicting types for ‘valve_leds_log_global_u8’; have ‘void(struct valve_leds *, const char *, unsigned int)’
+  787 | static void valve_leds_log_global_u8(struct valve_leds *leds, const char *name, unsigned int value)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:138:13: note: previous definition of ‘valve_leds_log_global_u8’ with type ‘void(struct valve_leds *, const char *, unsigned int)’
+  138 | static void valve_leds_log_global_u8(struct valve_leds *leds, const char *name, unsigned int value)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:795:16: error: ‘enabled_show’重定义
+  795 | static ssize_t enabled_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~~
+leds-valve-shim.c:146:16: note: previous definition of ‘enabled_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  146 | static ssize_t enabled_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~~
+leds-valve-shim.c:807:16: error: ‘enabled_store’重定义
+  807 | static ssize_t enabled_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~
+leds-valve-shim.c:158:16: note: previous definition of ‘enabled_store’ with type ‘ssize_t(struct device *, struct device_attribute *, const char *, size_t)’ {或称 ‘long int(struct device *, struct device_attribute *, const char *, long unsigned int)’}
+  158 | static ssize_t enabled_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~
+leds-valve-shim.c:827:16: error: ‘effect_show’重定义
+  827 | static ssize_t effect_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~
+leds-valve-shim.c:178:16: note: previous definition of ‘effect_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  178 | static ssize_t effect_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~
+leds-valve-shim.c:842:16: error: ‘effect_store’重定义
+  842 | static ssize_t effect_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~
+leds-valve-shim.c:193:16: note: previous definition of ‘effect_store’ with type ‘ssize_t(struct device *, struct device_attribute *, const char *, size_t)’ {或称 ‘long int(struct device *, struct device_attribute *, const char *, long unsigned int)’}
+  193 | static ssize_t effect_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~
+leds-valve-shim.c:861:16: error: ‘effect_index_show’重定义
+  861 | static ssize_t effect_index_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~~~~~~~
+leds-valve-shim.c:212:16: note: previous definition of ‘effect_index_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  212 | static ssize_t effect_index_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~~~~~~~
+leds-valve-shim.c:876:16: error: ‘delay_range_show’重定义
+  876 | static ssize_t delay_range_show(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:227:16: note: previous definition of ‘delay_range_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  227 | static ssize_t delay_range_show(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:883:16: error: ‘brightness_startup_show’重定义
+  883 | static ssize_t brightness_startup_show(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:234:16: note: previous definition of ‘brightness_startup_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  234 | static ssize_t brightness_startup_show(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:896:16: error: ‘brightness_startup_store’重定义
+  896 | static ssize_t brightness_startup_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:247:16: note: previous definition of ‘brightness_startup_store’ with type ‘ssize_t(struct device *, struct device_attribute *, const char *, size_t)’ {或称 ‘long int(struct device *, struct device_attribute *, const char *, long unsigned int)’}
+  247 | static ssize_t brightness_startup_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:917:16: error: ‘multi_intensity_startup_show’重定义
+  917 | static ssize_t multi_intensity_startup_show(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:268:16: note: previous definition of ‘multi_intensity_startup_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  268 | static ssize_t multi_intensity_startup_show(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:930:16: error: ‘multi_intensity_startup_store’重定义
+  930 | static ssize_t multi_intensity_startup_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:281:16: note: previous definition of ‘multi_intensity_startup_store’ with type ‘ssize_t(struct device *, struct device_attribute *, const char *, size_t)’ {或称 ‘long int(struct device *, struct device_attribute *, const char *, long unsigned int)’}
+  281 | static ssize_t multi_intensity_startup_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: error: ‘dev_attr_enabled’重定义
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:951:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  951 | static DEVICE_ATTR_RW(enabled);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: note: previous definition of ‘dev_attr_enabled’ with type ‘struct device_attribute’
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:302:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  302 | static DEVICE_ATTR_RW(enabled);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: error: ‘dev_attr_effect’重定义
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:952:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  952 | static DEVICE_ATTR_RW(effect);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: note: previous definition of ‘dev_attr_effect’ with type ‘struct device_attribute’
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:303:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  303 | static DEVICE_ATTR_RW(effect);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:215:33: error: ‘dev_attr_effect_index’重定义
+  215 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:953:8: note: in expansion of macro ‘DEVICE_ATTR_RO’
+  953 | static DEVICE_ATTR_RO(effect_index);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:215:33: note: previous definition of ‘dev_attr_effect_index’ with type ‘struct device_attribute’
+  215 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:304:8: note: in expansion of macro ‘DEVICE_ATTR_RO’
+  304 | static DEVICE_ATTR_RO(effect_index);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:215:33: error: ‘dev_attr_delay_range’重定义
+  215 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:954:8: note: in expansion of macro ‘DEVICE_ATTR_RO’
+  954 | static DEVICE_ATTR_RO(delay_range);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:215:33: note: previous definition of ‘dev_attr_delay_range’ with type ‘struct device_attribute’
+  215 |         struct device_attribute dev_attr_##_name = __ATTR_RO(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:305:8: note: in expansion of macro ‘DEVICE_ATTR_RO’
+  305 | static DEVICE_ATTR_RO(delay_range);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: error: ‘dev_attr_brightness_startup’重定义
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:955:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  955 | static DEVICE_ATTR_RW(brightness_startup);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: note: previous definition of ‘dev_attr_brightness_startup’ with type ‘struct device_attribute’
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:306:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  306 | static DEVICE_ATTR_RW(brightness_startup);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: error: ‘dev_attr_multi_intensity_startup’重定义
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:956:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  956 | static DEVICE_ATTR_RW(multi_intensity_startup);
+      |        ^~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/device.h:181:33: note: previous definition of ‘dev_attr_multi_intensity_startup’ with type ‘struct device_attribute’
+  181 |         struct device_attribute dev_attr_##_name = __ATTR_RW(_name)
+      |                                 ^~~~~~~~~
+leds-valve-shim.c:307:8: note: in expansion of macro ‘DEVICE_ATTR_RW’
+  307 | static DEVICE_ATTR_RW(multi_intensity_startup);
+      |        ^~~~~~~~~~~~~~
+leds-valve-shim.c:958:8: error: ‘struct valve_leds_int_attr’重定义
+  958 | struct valve_leds_int_attr {
+      |        ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:309:8: note: 原先在这里定义
+  309 | struct valve_leds_int_attr {
+      |        ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:965:16: error: ‘int_attr_show’重定义
+  965 | static ssize_t int_attr_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~~~
+leds-valve-shim.c:316:16: note: previous definition of ‘int_attr_show’ with type ‘ssize_t(struct device *, struct device_attribute *, char *)’ {或称 ‘long int(struct device *, struct device_attribute *, char *)’}
+  316 | static ssize_t int_attr_show(struct device *dev, struct device_attribute *attr, char *buf)
+      |                ^~~~~~~~~~~~~
+leds-valve-shim.c:979:16: error: ‘int_attr_store’重定义
+  979 | static ssize_t int_attr_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~
+leds-valve-shim.c:330:16: note: previous definition of ‘int_attr_store’ with type ‘ssize_t(struct device *, struct device_attribute *, const char *, size_t)’ {或称 ‘long int(struct device *, struct device_attribute *, const char *, long unsigned int)’}
+  330 | static ssize_t int_attr_store(struct device *dev, struct device_attribute *attr,
+      |                ^~~~~~~~~~~~~~
+leds-valve-shim.c:1004:43: error: conflicting types for ‘dev_attr_delay’; have ‘struct valve_leds_int_attr’
+ 1004 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:1011:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+ 1011 | VALVE_LEDS_INT_ATTR(delay, VALVE_DELAY_RANGE_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:355:43: note: previous definition of ‘dev_attr_delay’ with type ‘struct valve_leds_int_attr’
+  355 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:362:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+  362 | VALVE_LEDS_INT_ATTR(delay, VALVE_DELAY_RANGE_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1004:43: error: conflicting types for ‘dev_attr_breath_offset’; have ‘struct valve_leds_int_attr’
+ 1004 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:1012:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+ 1012 | VALVE_LEDS_INT_ATTR(breath_offset, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:355:43: note: previous definition of ‘dev_attr_breath_offset’ with type ‘struct valve_leds_int_attr’
+  355 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:363:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+  363 | VALVE_LEDS_INT_ATTR(breath_offset, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1004:43: error: conflicting types for ‘dev_attr_breath_level’; have ‘struct valve_leds_int_attr’
+ 1004 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:1013:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+ 1013 | VALVE_LEDS_INT_ATTR(breath_level, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:355:43: note: previous definition of ‘dev_attr_breath_level’ with type ‘struct valve_leds_int_attr’
+  355 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:364:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+  364 | VALVE_LEDS_INT_ATTR(breath_level, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1004:43: error: conflicting types for ‘dev_attr_patrol_num’; have ‘struct valve_leds_int_attr’
+ 1004 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:1014:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+ 1014 | VALVE_LEDS_INT_ATTR(patrol_num, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:355:43: note: previous definition of ‘dev_attr_patrol_num’ with type ‘struct valve_leds_int_attr’
+  355 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:365:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+  365 | VALVE_LEDS_INT_ATTR(patrol_num, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1004:43: error: conflicting types for ‘dev_attr_color_shift’; have ‘struct valve_leds_int_attr’
+ 1004 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:1015:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+ 1015 | VALVE_LEDS_INT_ATTR(color_shift, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:355:43: note: previous definition of ‘dev_attr_color_shift’ with type ‘struct valve_leds_int_attr’
+  355 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:366:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+  366 | VALVE_LEDS_INT_ATTR(color_shift, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1004:43: error: conflicting types for ‘dev_attr_brightness_scale’; have ‘struct valve_leds_int_attr’
+ 1004 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:1016:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+ 1016 | VALVE_LEDS_INT_ATTR(brightness_scale, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:355:43: note: previous definition of ‘dev_attr_brightness_scale’ with type ‘struct valve_leds_int_attr’
+  355 |         static struct valve_leds_int_attr dev_attr_##_name = { \
+      |                                           ^~~~~~~~~
+leds-valve-shim.c:367:1: note: in expansion of macro ‘VALVE_LEDS_INT_ATTR’
+  367 | VALVE_LEDS_INT_ATTR(brightness_scale, U8_MAX);
+      | ^~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1018:26: error: ‘valve_leds_attrs’重定义
+ 1018 | static struct attribute *valve_leds_attrs[] = {
+      |                          ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:369:26: note: previous definition of ‘valve_leds_attrs’ with type ‘struct attribute *[13]’
+  369 | static struct attribute *valve_leds_attrs[] = {
+      |                          ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:1034:37: error: ‘valve_leds_attr_group’重定义
+ 1034 | static const struct attribute_group valve_leds_attr_group = {
+      |                                     ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:385:37: note: previous definition of ‘valve_leds_attr_group’ with type ‘const struct attribute_group’
+  385 | static const struct attribute_group valve_leds_attr_group = {
+      |                                     ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1038:8: error: ‘struct valve_leds_file’重定义
+ 1038 | struct valve_leds_file {
+      |        ^~~~~~~~~~~~~~~
+leds-valve-shim.c:389:8: note: 原先在这里定义
+  389 | struct valve_leds_file {
+      |        ^~~~~~~~~~~~~~~
+leds-valve-shim.c:1043:13: error: conflicting types for ‘valve_leds_fill_snapshot’; have ‘void(struct valve_leds *, struct valve_leds_snapshot *)’
+ 1043 | static void valve_leds_fill_snapshot(struct valve_leds *leds, struct valve_leds_snapshot *snapshot)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:394:13: note: previous definition of ‘valve_leds_fill_snapshot’ with type ‘void(struct valve_leds *, struct valve_leds_snapshot *)’
+  394 | static void valve_leds_fill_snapshot(struct valve_leds *leds, struct valve_leds_snapshot *snapshot)
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1070:12: error: ‘valve_leds_state_open’重定义
+ 1070 | static int valve_leds_state_open(struct inode *inode, struct file *file)
+      |            ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:421:12: note: previous definition of ‘valve_leds_state_open’ with type ‘int(struct inode *, struct file *)’
+  421 | static int valve_leds_state_open(struct inode *inode, struct file *file)
+      |            ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1087:12: error: ‘valve_leds_state_release’重定义
+ 1087 | static int valve_leds_state_release(struct inode *inode, struct file *file)
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:438:12: note: previous definition of ‘valve_leds_state_release’ with type ‘int(struct inode *, struct file *)’
+  438 | static int valve_leds_state_release(struct inode *inode, struct file *file)
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1093:16: error: ‘valve_leds_state_read’重定义
+ 1093 | static ssize_t valve_leds_state_read(struct file *file, char __user *buf, size_t count,
+      |                ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:444:16: note: previous definition of ‘valve_leds_state_read’ with type ‘ssize_t(struct file *, char *, size_t,  loff_t *)’ {或称 ‘long int(struct file *, char *, long unsigned int,  long long int *)’}
+  444 | static ssize_t valve_leds_state_read(struct file *file, char __user *buf, size_t count,
+      |                ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1115:17: error: ‘valve_leds_state_poll’重定义
+ 1115 | static __poll_t valve_leds_state_poll(struct file *file, poll_table *wait)
+      |                 ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:466:17: note: previous definition of ‘valve_leds_state_poll’ with type ‘__poll_t(struct file *, poll_table *)’ {或称 ‘unsigned int(struct file *, struct poll_table_struct *)’}
+  466 | static __poll_t valve_leds_state_poll(struct file *file, poll_table *wait)
+      |                 ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1136:37: error: ‘valve_leds_state_fops’重定义
+ 1136 | static const struct file_operations valve_leds_state_fops = {
+      |                                     ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:487:37: note: previous definition of ‘valve_leds_state_fops’ with type ‘const struct file_operations’
+  487 | static const struct file_operations valve_leds_state_fops = {
+      |                                     ^~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1145:12: error: ‘valve_leds_set_brightness’重定义
+ 1145 | static int valve_leds_set_brightness(struct led_classdev *led_cdev,
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:496:12: note: previous definition of ‘valve_leds_set_brightness’ with type ‘int(struct led_classdev *, enum led_brightness)’
+  496 | static int valve_leds_set_brightness(struct led_classdev *led_cdev,
+      |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1167:12: error: ‘valve_leds_probe’重定义
+ 1167 | static int valve_leds_probe(struct platform_device *pdev)
+      |            ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:518:12: note: previous definition of ‘valve_leds_probe’ with type ‘int(struct platform_device *)’
+  518 | static int valve_leds_probe(struct platform_device *pdev)
+      |            ^~~~~~~~~~~~~~~~
+leds-valve-shim.c:1248:13: error: ‘valve_leds_remove’重定义
+ 1248 | static void valve_leds_remove(struct platform_device *pdev)
+      |             ^~~~~~~~~~~~~~~~~
+leds-valve-shim.c:599:13: note: previous definition of ‘valve_leds_remove’ with type ‘void(struct platform_device *)’
+  599 | static void valve_leds_remove(struct platform_device *pdev)
+      |             ^~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1256:31: error: ‘valve_leds_driver’重定义
+ 1256 | static struct platform_driver valve_leds_driver = {
+      |                               ^~~~~~~~~~~~~~~~~
+leds-valve-shim.c:607:31: note: previous definition of ‘valve_leds_driver’ with type ‘struct platform_driver’
+  607 | static struct platform_driver valve_leds_driver = {
+      |                               ^~~~~~~~~~~~~~~~~
+leds-valve-shim.c:1264:19: error: ‘valve_leds_init’重定义
+ 1264 | static int __init valve_leds_init(void)
+      |                   ^~~~~~~~~~~~~~~
+leds-valve-shim.c:615:19: note: previous definition of ‘valve_leds_init’ with type ‘int(void)’
+  615 | static int __init valve_leds_init(void)
+      |                   ^~~~~~~~~~~~~~~
+leds-valve-shim.c:1284:20: error: ‘valve_leds_exit’重定义
+ 1284 | static void __exit valve_leds_exit(void)
+      |                    ^~~~~~~~~~~~~~~
+leds-valve-shim.c:635:20: note: previous definition of ‘valve_leds_exit’ with type ‘void(void)’
+  635 | static void __exit valve_leds_exit(void)
+      |                    ^~~~~~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:132:49: error: ‘__inittest’重定义
+  132 |         static inline initcall_t __maybe_unused __inittest(void)                \
+      |                                                 ^~~~~~~~~~
+leds-valve-shim.c:1290:1: note: in expansion of macro ‘module_init’
+ 1290 | module_init(valve_leds_init);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:132:49: note: previous definition of ‘__inittest’ with type ‘int (*(void))(void)’
+  132 |         static inline initcall_t __maybe_unused __inittest(void)                \
+      |                                                 ^~~~~~~~~~
+leds-valve-shim.c:641:1: note: in expansion of macro ‘module_init’
+  641 | module_init(valve_leds_init);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:134:13: error: ‘init_module’重定义
+  134 |         int init_module(void) __copy(initfn)                    \
+      |             ^~~~~~~~~~~
+leds-valve-shim.c:1290:1: note: in expansion of macro ‘module_init’
+ 1290 | module_init(valve_leds_init);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:134:13: note: previous definition of ‘init_module’ with type ‘int(void)’
+  134 |         int init_module(void) __copy(initfn)                    \
+      |             ^~~~~~~~~~~
+leds-valve-shim.c:641:1: note: in expansion of macro ‘module_init’
+  641 | module_init(valve_leds_init);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:140:49: error: ‘__exittest’重定义
+  140 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+      |                                                 ^~~~~~~~~~
+leds-valve-shim.c:1291:1: note: in expansion of macro ‘module_exit’
+ 1291 | module_exit(valve_leds_exit);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:140:49: note: previous definition of ‘__exittest’ with type ‘void (*(void))(void)’
+  140 |         static inline exitcall_t __maybe_unused __exittest(void)                \
+      |                                                 ^~~~~~~~~~
+leds-valve-shim.c:642:1: note: in expansion of macro ‘module_exit’
+  642 | module_exit(valve_leds_exit);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:142:14: error: ‘cleanup_module’重定义
+  142 |         void cleanup_module(void) __copy(exitfn)                \
+      |              ^~~~~~~~~~~~~~
+leds-valve-shim.c:1291:1: note: in expansion of macro ‘module_exit’
+ 1291 | module_exit(valve_leds_exit);
+      | ^~~~~~~~~~~
+/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/include/linux/module.h:142:14: note: previous definition of ‘cleanup_module’ with type ‘void(void)’
+  142 |         void cleanup_module(void) __copy(exitfn)                \
+      |              ^~~~~~~~~~~~~~
+leds-valve-shim.c:642:1: note: in expansion of macro ‘module_exit’
+  642 | module_exit(valve_leds_exit);
+      | ^~~~~~~~~~~
+leds-valve-shim.c:1299:1: error: version control conflict marker in file
+ 1299 | >>>>>>> 3e414fbe9493877576bd8ec237095d71b28574b6
+      | ^~~~~~~
+leds-valve-shim.c:1299:9: error: 浮点常量的 ‘fbe9493877576bd8ec237095d71b28574b6’ 后缀无效
+ 1299 | >>>>>>> 3e414fbe9493877576bd8ec237095d71b28574b6
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+make[4]: *** [/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/scripts/Makefile.build:289：leds-valve-shim.o] 错误 1
+make[3]: *** [/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/Makefile:2170：.] 错误 2
+make[2]: *** [/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64/Makefile:248：__sub-make] 错误 2
+make[2]: 离开目录“/home/nobara-user/Desktop/steamos-led-wled/leds-valve-shim”
+make[1]: *** [Makefile:248：__sub-make] 错误 2
+make[1]: 离开目录“/usr/src/kernels/7.1.3-200.nobara.fc44.x86_64”
+make: *** [Makefile:6：all] 错误 2
+make: 离开目录“/home/nobara-user/Desktop/steamos-led-wled/leds-valve-shim”
+build failed; install linux-headers for 7.1.3-200.nobara.fc44.x86_64 and make/gcc first
